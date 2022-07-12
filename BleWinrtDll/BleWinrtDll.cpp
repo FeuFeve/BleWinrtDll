@@ -326,7 +326,8 @@ fire_and_forget ScanServicesAsync(wchar_t* deviceId) {
 				for (auto&& service : services)
 				{
 					Service serviceStruct;
-					wcscpy_s(serviceStruct.uuid, sizeof(serviceStruct.uuid) / sizeof(wchar_t), to_hstring(service.Uuid()).c_str());
+					wcscpy_s(serviceStruct.deviceId, sizeof(serviceStruct.deviceId) / sizeof(wchar_t), to_hstring(deviceId).c_str());
+					wcscpy_s(serviceStruct.serviceUuid, sizeof(serviceStruct.serviceUuid) / sizeof(wchar_t), to_hstring(service.Uuid()).c_str());
 					{
 						lock_guard lock(quitLock);
 						if (quitFlag)
@@ -391,7 +392,9 @@ fire_and_forget ScanCharacteristicsAsync(wchar_t* deviceId, wchar_t* serviceId) 
 				for (auto c : charScan.Characteristics())
 				{
 					Characteristic charStruct;
-					wcscpy_s(charStruct.uuid, sizeof(charStruct.uuid) / sizeof(wchar_t), to_hstring(c.Uuid()).c_str());
+					wcscpy_s(charStruct.deviceId, sizeof(charStruct.deviceId) / sizeof(wchar_t), to_hstring(deviceId).c_str());
+					wcscpy_s(charStruct.serviceUuid, sizeof(charStruct.serviceUuid) / sizeof(wchar_t), to_hstring(serviceId).c_str());
+					wcscpy_s(charStruct.characteristicUuid, sizeof(charStruct.characteristicUuid) / sizeof(wchar_t), to_hstring(c.Uuid()).c_str());
 					// retrieve user description
 					GattDescriptorsResult descriptorScan = co_await c.GetDescriptorsForUuidAsync(make_guid(L"00002901-0000-1000-8000-00805F9B34FB"), BluetoothCacheMode::Uncached);
 					if (descriptorScan.Descriptors().Size() == 0) {

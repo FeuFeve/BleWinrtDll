@@ -11,11 +11,14 @@ struct DeviceUpdate {
 };
 
 struct Service {
-	wchar_t uuid[100];
+	wchar_t deviceId[256];
+	wchar_t serviceUuid[256];
 };
 
 struct Characteristic {
-	wchar_t uuid[100];
+	wchar_t deviceId[256];
+	wchar_t serviceUuid[256];
+	wchar_t characteristicUuid[256];
 	wchar_t userDescription[100];
 };
 
